@@ -1,0 +1,7 @@
+.card_de {
+    min-width: 18rem;
+    max-width: 18rem;
+    border: 2px solid rgb(194, 120, 9) !important;
+    border-radius: 10px !important;
+    padding: 35px;
+}
