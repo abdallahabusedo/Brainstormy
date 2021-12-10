@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import Welcome from "./pages/Welcome";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import Profile from "./pages/Profile";
 import "./App.css";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route exact path="/" element={<Welcome />}></Route>
           <Route exact path="/signup" element={<Signup />}></Route>
           <Route exact path="/login" element={<Login />}></Route>
+          <Route exact path="/profile" element={<Profile />}></Route>
         </Routes>
       </div>
     </Router>
