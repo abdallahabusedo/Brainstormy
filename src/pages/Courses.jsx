@@ -18,9 +18,11 @@ class Courses extends Component {
                 Some quick example text to build on the card title and make up
                 the bulk of the card's content.
               </p>
-              <button type="button" className="btn btn-warning">
-                View Course
-              </button>
+              <a href="/courseid">
+                <button type="button" className="btn btn-warning">
+                  View Course
+                </button>
+              </a>
             </div>
           </div>
           <div className="card card_de m-3">
@@ -30,9 +32,11 @@ class Courses extends Component {
                 Some quick example text to build on the card title and make up
                 the bulk of the card's content.
               </p>
-              <button type="button" className="btn btn-warning">
-                View Course
-              </button>
+              <a href="/courseid">
+                <button type="button" className="btn btn-warning">
+                  View Course
+                </button>
+              </a>
             </div>
           </div>
           <div className="card card_de m-3">
@@ -42,9 +46,11 @@ class Courses extends Component {
                 Some quick example text to build on the card title and make up
                 the bulk of the card's content.
               </p>
-              <button type="button" className="btn btn-warning">
-                View Course
-              </button>
+              <a href="/courseid">
+                <button type="button" className="btn btn-warning">
+                  View Course
+                </button>
+              </a>
             </div>
           </div>
           <div className="card card_de m-3">
@@ -54,9 +60,11 @@ class Courses extends Component {
                 Some quick example text to build on the card title and make up
                 the bulk of the card's content.
               </p>
-              <button type="button" className="btn btn-warning">
-                View Course
-              </button>
+              <a href="/courseid">
+                <button type="button" className="btn btn-warning">
+                  View Course
+                </button>
+              </a>
             </div>
           </div>
           <div className="card card_de m-3">
@@ -66,9 +74,11 @@ class Courses extends Component {
                 Some quick example text to build on the card title and make up
                 the bulk of the card's content.
               </p>
-              <button type="button" className="btn btn-warning">
-                View Course
-              </button>
+              <a href="/courseid">
+                <button type="button" className="btn btn-warning">
+                  View Course
+                </button>
+              </a>
             </div>
           </div>
           <div className="card card_de m-3">
@@ -78,9 +88,11 @@ class Courses extends Component {
                 Some quick example text to build on the card title and make up
                 the bulk of the card's content.
               </p>
-              <button type="button" className="btn btn-warning">
-                View Course
-              </button>
+              <a href="/courseid">
+                <button type="button" className="btn btn-warning">
+                  View Course
+                </button>
+              </a>
             </div>
           </div>
           <div className="card card_de m-3">
@@ -90,9 +102,11 @@ class Courses extends Component {
                 Some quick example text to build on the card title and make up
                 the bulk of the card's content.
               </p>
-              <button type="button" className="btn btn-warning">
-                View Course
-              </button>
+              <a href="/courseid">
+                <button type="button" className="btn btn-warning">
+                  View Course
+                </button>
+              </a>
             </div>
           </div>
         </div>

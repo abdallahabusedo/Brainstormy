@@ -6,6 +6,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Courses from "./pages/Courses";
+import CoursePage from "./pages/CoursePage";
 import "./App.css";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route exact path="/login" element={<Login />}></Route>
           <Route exact path="/profile" element={<Profile />}></Route>
           <Route exact path="/Courses" element={<Courses />}></Route>
+          <Route exact path="/courseid" element={<CoursePage />}></Route>
         </Routes>
       </div>
     </Router>
