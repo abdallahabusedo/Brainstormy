@@ -37,16 +37,16 @@ class Courses extends Component {
   }
 
   CourseCard() {
-    return this.state.courses.map((course, i) => {
+    return this.state.courses.map((course) => {
       console.log(course);
       return (
         <div className="card-group justify-content-center align-items-center d-inline-block">
           <div className="card card_de m-3 shadow-lg bg-white rounded  ">
             <img className="card-img-top" src={cardImg} alt="Card image cap" />
             <div className="card-body">
-              <h2>{course.name}</h2>
+              <h4>{course.name}</h4>
               <p className="card-text">{course.description}</p>
-              {this.Submit(i)}
+              {this.Submit(course.id)}
             </div>
           </div>
         </div>
@@ -57,7 +57,7 @@ class Courses extends Component {
   Submit(i) {
     return (
       <div>
-        <a href={`/course${i}`}>
+        <a href={`/course/${i}`}>
           <button type="button" className="btn btn-warning">
             View Course
           </button>

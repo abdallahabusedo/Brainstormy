@@ -57,7 +57,7 @@ class Profile extends Component {
     this.setState({ readOnly: true });
     /* todo: */
     axios
-      .put(`http://localhost:2000/user?id=${userId}`, toUpdate)
+      .put(`http://localhost:2000/user/${userId}`, toUpdate)
       .then((response) => {
         console.log(response);
       })

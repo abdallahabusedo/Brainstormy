@@ -20,8 +20,12 @@ class Login extends Component {
   };
   handelSubmit = (e) => {
     e.preventDefault();
+    let toSend = {
+      email: this.state.email,
+      password: this.state.password,
+    };
     axios
-      .get(`http://localhost:2000/user?email=${this.state.email}`)
+      .post(`http://localhost:2000/user`, toSend)
       .then((Response) => {
         console.log(Response);
       })

@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import ReactDOM from "react-dom";
-import React, { Component } from "react";
+// import ReactDOM from "react-dom";
+import React from "react";
 import Welcome from "./pages/Welcome";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
@@ -11,9 +11,6 @@ import "./App.css";
 
 function App() {
   return (
-    // <div className="App">
-    //   <Welcome />
-    // </div>
     <Router>
       <div className="App">
         <Routes>
@@ -22,7 +19,7 @@ function App() {
           <Route exact path="/login" element={<Login />}></Route>
           <Route exact path="/profile" element={<Profile />}></Route>
           <Route exact path="/Courses" element={<Courses />}></Route>
-          <Route exact path="/courseid" element={<CoursePage />}></Route>
+          <Route exact path="/course/:id" element={<CoursePage />}></Route>
         </Routes>
       </div>
     </Router>

@@ -1,7 +1,29 @@
 import React, { Component } from "react";
 import Header from "../components/Header";
 import courseImg from "./../assets/logo.png";
+import axios from "axios";
 export default class CoursePage extends Component {
+  constructor(props) {
+    super(props);
+    console.log(window.location.pathname.split("/")[2]);
+    this.state = {
+      courses: [],
+      id: window.location.pathname.split("/")[2],
+    };
+  }
+  componentDidMount = () => {
+    axios
+      .get(`http://localhost:2000/courses/${this.state.id}`)
+      .then((response) => {
+        this.setState({
+          courses: response.data,
+        });
+        console.log(this.state.courses);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   render() {
     return (
       <div>
@@ -14,22 +36,7 @@ export default class CoursePage extends Component {
                   <div className="col-md-0 col-xl-8">
                     <div className="card">
                       <div className="card-body text-center">
-                        <div className="mt-0 mb-0">
-                          <img
-                            src={courseImg}
-                            className="rounded-circle img-fluid"
-                            width="200px"
-                          />
-                        </div>
-                        <h4 className="mb-2">Course Name</h4>
-                        <h4 className="mb-2">Instructor</h4>
-                        <p className=" h5 card-text">
-                          overview Lorem ipsum dolor sit amet consectetur,
-                          adipisicing elit. Et minus cum aspernatur libero
-                          voluptatem ex illo eum magni corrupti, debitis sequi
-                          ad reprehenderit dicta veritatis! Officiis assumenda
-                          adipisci accusamus totam?
-                        </p>
+                        {this.CourseInfo()}
                         <button className="btn btn-warning btn-lg btn-block ">
                           Enrol
                         </button>
@@ -42,6 +49,23 @@ export default class CoursePage extends Component {
             </section>
           </div>
         </div>
+      </div>
+    );
+  }
+
+  CourseInfo() {
+    return (
+      <div className="mt-0 mb-0">
+        <div>
+          <img
+            src={courseImg}
+            className="rounded-circle img-fluid"
+            width="200px"
+          />
+        </div>
+        <h4 className="mb-2">{this.state.course}</h4>
+        <h4 className="mb-2">Instructor</h4>
+        <p className=" h5 card-text"></p>
       </div>
     );
   }
