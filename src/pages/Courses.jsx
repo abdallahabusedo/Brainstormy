@@ -2,7 +2,28 @@ import React, { Component } from "react";
 import Header from "../components/Header";
 import "./../style/courses.css";
 import cardImg from "./../assets/logo.png";
+import axios from "axios";
 class Courses extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      courses: [],
+    };
+  }
+  componentDidMount = async () => {
+    await axios
+      .get("http://localhost:2000/courses")
+      .then((response) => {
+        console.log(response.data);
+        this.setState({
+          courses: response.data,
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    console.log(this.state.courses);
+  };
   render() {
     return (
       <div>
@@ -10,106 +31,37 @@ class Courses extends Component {
         <div>
           <h1 className="m-5 p-5">Courses</h1>
         </div>
-        <div className="card-group justify-content-center align-items-center ">
-          <div className="card card_de m-3">
+        {this.CourseCard()}
+      </div>
+    );
+  }
+
+  CourseCard() {
+    return this.state.courses.map((course, i) => {
+      console.log(course);
+      return (
+        <div className="card-group justify-content-center align-items-center d-inline-block">
+          <div className="card card_de m-3 shadow-lg bg-white rounded  ">
             <img className="card-img-top" src={cardImg} alt="Card image cap" />
             <div className="card-body">
-              <p className="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </p>
-              <a href="/courseid">
-                <button type="button" className="btn btn-warning">
-                  View Course
-                </button>
-              </a>
-            </div>
-          </div>
-          <div className="card card_de m-3">
-            <img className="card-img-top" src={cardImg} alt="Card image cap" />
-            <div className="card-body">
-              <p className="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </p>
-              <a href="/courseid">
-                <button type="button" className="btn btn-warning">
-                  View Course
-                </button>
-              </a>
-            </div>
-          </div>
-          <div className="card card_de m-3">
-            <img className="card-img-top" src={cardImg} alt="Card image cap" />
-            <div className="card-body">
-              <p className="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </p>
-              <a href="/courseid">
-                <button type="button" className="btn btn-warning">
-                  View Course
-                </button>
-              </a>
-            </div>
-          </div>
-          <div className="card card_de m-3">
-            <img className="card-img-top" src={cardImg} alt="Card image cap" />
-            <div className="card-body">
-              <p className="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </p>
-              <a href="/courseid">
-                <button type="button" className="btn btn-warning">
-                  View Course
-                </button>
-              </a>
-            </div>
-          </div>
-          <div className="card card_de m-3">
-            <img className="card-img-top" src={cardImg} alt="Card image cap" />
-            <div className="card-body">
-              <p className="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </p>
-              <a href="/courseid">
-                <button type="button" className="btn btn-warning">
-                  View Course
-                </button>
-              </a>
-            </div>
-          </div>
-          <div className="card card_de m-3">
-            <img className="card-img-top" src={cardImg} alt="Card image cap" />
-            <div className="card-body">
-              <p className="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </p>
-              <a href="/courseid">
-                <button type="button" className="btn btn-warning">
-                  View Course
-                </button>
-              </a>
-            </div>
-          </div>
-          <div className="card card_de m-3">
-            <img className="card-img-top" src={cardImg} alt="Card image cap" />
-            <div className="card-body">
-              <p className="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </p>
-              <a href="/courseid">
-                <button type="button" className="btn btn-warning">
-                  View Course
-                </button>
-              </a>
+              <h2>{course.name}</h2>
+              <p className="card-text">{course.description}</p>
+              {this.Submit(i)}
             </div>
           </div>
         </div>
+      );
+    });
+  }
+
+  Submit(i) {
+    return (
+      <div>
+        <a href={`/course${i}`}>
+          <button type="button" className="btn btn-warning">
+            View Course
+          </button>
+        </a>
       </div>
     );
   }

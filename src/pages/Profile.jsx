@@ -19,7 +19,6 @@ class Profile extends Component {
     };
   }
   handleChange = (e) => {
-    console.log(this.state.agreeTerms);
     let target = e.target;
     let value = target.type === "checkbox" ? target.checked : target.value;
     let name = target.name;
@@ -30,7 +29,6 @@ class Profile extends Component {
   componentDidMount = () => {
     let userId = localStorage.getItem("accessToken");
     axios.get(`http://localhost:2000/user?id=${userId}`).then((response) => {
-      console.log(response.data[0].birthDate);
       this.setState({
         firstName: response.data[0].firstName,
         lastName: response.data[0].lastName,
@@ -40,6 +38,32 @@ class Profile extends Component {
         type: response.data[0].type,
       });
     });
+  };
+  EditForm = () => {
+    this.setState({ readOnly: false });
+  };
+  SubmitEdit = (e) => {
+    e.preventDefault();
+    let userId = localStorage.getItem("accessToken");
+    const toUpdate = {
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      username: this.state.username,
+      email: this.state.email,
+      birthDate: this.state.birthDate,
+      type: this.state.type,
+    };
+
+    this.setState({ readOnly: true });
+    /* todo: */
+    axios
+      .put(`http://localhost:2000/user?id=${userId}`, toUpdate)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((e) => {
+        console.log("error edit", e);
+      });
   };
   render() {
     return (
@@ -57,8 +81,8 @@ class Profile extends Component {
                         className="rounded-circle img-fluid"
                       />
                     </div>
-                    <h4 className="mb-2">Username</h4>
-                    <h4 className="mb-2">instructor | student</h4>
+                    <h1 className="mb-2 mt-4"> {this.state.username} </h1>
+                    <h4 className="mb-2"> {this.state.type} </h4>
                     {this.firstName()}
                     {this.lastName()}
                     {this.userName()}
@@ -78,8 +102,23 @@ class Profile extends Component {
   Submit() {
     return (
       <div className="pt-1 mb-4">
-        <button className="btn btn-warning btn-lg btn-block" type="button">
-          edit | Save
+        <button
+          className={`${
+            this.state.readOnly ? "" : "d-none"
+          } btn btn-warning btn-lg btn-block`}
+          type="button"
+          onClick={this.EditForm}
+        >
+          Edit
+        </button>
+        <button
+          className={`${
+            this.state.readOnly ? "d-none" : ""
+          } btn btn-warning btn-lg btn-block`}
+          type="button"
+          onClick={this.SubmitEdit}
+        >
+          Save
         </button>
       </div>
     );
@@ -93,7 +132,8 @@ class Profile extends Component {
           id="form2Example27"
           className="form-control form-control-lg"
           readOnly={this.state.readOnly}
-          value={this.state.birthDate}
+          defaultValue={this.state.birthDate}
+          onChange={this.handleChange}
         />
       </div>
     );
@@ -108,7 +148,8 @@ class Profile extends Component {
           className="form-control form-control-lg"
           readOnly={this.state.readOnly}
           placeholder="Email address"
-          value={this.state.email}
+          defaultValue={this.state.email}
+          onChange={this.handleChange}
         />
       </div>
     );
@@ -123,7 +164,8 @@ class Profile extends Component {
           className="form-control form-control-lg"
           readOnly={this.state.readOnly}
           placeholder="User Name"
-          value={this.state.username}
+          defaultValue={this.state.username}
+          onChange={this.handleChange}
         />
       </div>
     );
@@ -138,7 +180,8 @@ class Profile extends Component {
           className="form-control form-control-lg"
           readOnly={this.state.readOnly}
           placeholder="Last Name"
-          value={this.state.lastName}
+          defaultValue={this.state.lastName}
+          onChange={this.handleChange}
         />
       </div>
     );
@@ -153,7 +196,8 @@ class Profile extends Component {
           className="form-control form-control-lg"
           placeholder="First Name"
           readOnly={this.state.readOnly}
-          value={this.state.firstName}
+          defaultValue={this.state.firstName}
+          onChange={this.handleChange}
         />
       </div>
     );
