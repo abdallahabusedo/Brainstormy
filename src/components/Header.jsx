@@ -1,6 +1,18 @@
 import React, { Component } from "react";
 import Logo from "./../assets/logo.png";
 class Header extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+  signOut = (e) => {
+    e.preventDefault();
+    let id = localStorage.getItem("accessToken");
+    if (id != "") {
+      localStorage.setItem("accessToken", "");
+      window.location = "/signup";
+    }
+  };
   render() {
     return (
       <div>
@@ -46,6 +58,14 @@ class Header extends Component {
                 </li>
               </ul>
             </div>
+            <form className="form-inline">
+              <button
+                className="btn btn-warning my-2 my-sm-0"
+                onClick={this.signOut}
+              >
+                <h5>SignOut</h5>
+              </button>
+            </form>
           </div>
         </nav>
       </div>

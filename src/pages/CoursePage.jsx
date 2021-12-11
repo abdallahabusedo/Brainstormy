@@ -30,16 +30,14 @@ export default class CoursePage extends Component {
         <Header />
         <div>
           <div>
-            <section className="vh-100">
+            <section className="vh-100 mt-5">
               <div className="container py-5 h-100">
                 <div className="row d-flex justify-content-center align-items-center h-100">
                   <div className="col-md-0 col-xl-8">
                     <div className="card">
                       <div className="card-body text-center">
                         {this.CourseInfo()}
-                        <button className="btn btn-warning btn-lg btn-block ">
-                          Enrol
-                        </button>
+                        { this.Enrol()}
                         <h2 className="h2">content</h2>
                       </div>
                     </div>
@@ -53,6 +51,15 @@ export default class CoursePage extends Component {
     );
   }
 
+  Enrol() {
+    return (
+      <div>
+        <button className="btn btn-warning btn-lg btn-block mt-3 mb-5">
+          Enrol
+        </button>
+      </div>
+    );
+  }
   CourseInfo() {
     return (
       <div className="mt-0 mb-0">
@@ -63,9 +70,10 @@ export default class CoursePage extends Component {
             width="200px"
           />
         </div>
-        <h4 className="mb-2">{this.state.course}</h4>
-        <h4 className="mb-2">Instructor</h4>
-        <p className=" h5 card-text"></p>
+        <h4 className="mb-2">{this.state.courses.name}</h4>
+
+        <h4 className="mb-2">{this.state.courses.instructor}</h4>
+        <p className=" h5 card-text">{this.state.courses.description}</p>
       </div>
     );
   }

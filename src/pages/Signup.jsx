@@ -19,7 +19,6 @@ class Signup extends Component {
     };
   }
   handleChange = (e) => {
-    console.log(this.state.agreeTerms);
     let target = e.target;
     let value = target.type === "checkbox" ? target.checked : target.value;
     let name = target.name;
