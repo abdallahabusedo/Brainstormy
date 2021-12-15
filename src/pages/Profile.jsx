@@ -40,6 +40,7 @@ class Profile extends Component {
           birthDate: response.data[0].birthDate,
           type: response.data[0].type,
         });
+        localStorage.setItem("type", response.data[0].type);
       });
     } else {
       window.location = "/signup";
