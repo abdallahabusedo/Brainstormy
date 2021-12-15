@@ -25,15 +25,35 @@ class Courses extends Component {
     console.log(this.state.courses);
   };
   render() {
+    let id = localStorage.getItem("accessToken");
+    let a = id == "" ? false : true;
     return (
       <div>
         <Header />
-        <div>
-          <h1 className="m-5 p-5">Courses</h1>
-        </div>
-        {this.CourseCard()}
+        {a ? this.ContentIfL() : this.ContentIfNL()}
       </div>
     );
+  }
+
+  ContentIfL() {
+    return <div>
+      <div>
+        <h1 className="m-5 p-5">Courses</h1>
+      </div>
+
+      {this.CourseCard()}
+    </div>;
+  }
+
+  ContentIfNL() {
+    return <div>
+      <h1 className="m-5 p-5"> Join To View Courses </h1>
+      <a href="/signup">
+        <button className="btn btn-warning btn-lg btn-block mt-3 mb-5">
+          Join here
+        </button>
+      </a>
+    </div>;
   }
 
   CourseCard() {

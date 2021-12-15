@@ -34,6 +34,13 @@ class Login extends Component {
         console.log(e, "error");
       });
   };
+  componentDidMount = () => {
+    let id = localStorage.getItem("accessToken");
+    let a = id == "" ? false : true;
+    if (a) {
+      window.location = "/profile";
+    }
+  };
   render() {
     return (
       <div>

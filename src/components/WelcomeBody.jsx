@@ -3,6 +3,8 @@ import Logo from "./../assets/logo.png";
 
 export default class WelcomeBody extends Component {
   render() {
+    let id = localStorage.getItem("accessToken");
+    let a = id == "" ? false : true;
     return (
       <div className="WelcomeBody">
         <main>
@@ -22,8 +24,11 @@ export default class WelcomeBody extends Component {
               <p class="lead fw-normal">
                 learn more think more gain more skills
               </p>
-              <a class="btn btn-outline-secondary" href="/courses">
-                See Courses
+              <a
+                class="btn btn-outline-secondary"
+                href={a ? "/courses" : "/signup"}
+              >
+                {a ? "See Courses" : "join us"}
               </a>
             </div>
           </div>

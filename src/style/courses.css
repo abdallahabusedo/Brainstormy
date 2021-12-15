@@ -5,3 +5,28 @@
     border-radius: 10px !important;
     padding: 35px;
 }
+
+.file-input label {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    border-radius: 5px;
+    background: #ffc107;
+    box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+}
+
+.file {
+    text-align: center;
+    opacity: 0;
+    width: 0.1px;
+    height: 0.1px;
+    position: absolute;
+}

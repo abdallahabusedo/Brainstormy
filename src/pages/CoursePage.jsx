@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Header from "../components/Header";
 import courseImg from "./../assets/logo.png";
 import axios from "axios";
+import "./../../src/style/courses.css";
 export default class CoursePage extends Component {
   constructor(props) {
     super(props);
@@ -9,6 +10,7 @@ export default class CoursePage extends Component {
     this.state = {
       courses: [],
       id: window.location.pathname.split("/")[2],
+      files: [],
     };
   }
   componentDidMount = () => {
@@ -24,6 +26,10 @@ export default class CoursePage extends Component {
         console.log(e);
       });
   };
+  onChange = (e) => {
+    let file = e.target.files;
+    this.setState({ files: file });
+  };
   render() {
     return (
       <div>
@@ -37,8 +43,10 @@ export default class CoursePage extends Component {
                     <div className="card">
                       <div className="card-body text-center">
                         {this.CourseInfo()}
-                        { this.Enrol()}
+                        {this.Enrol()}
                         <h2 className="h2">content</h2>
+                        {this.Content()}
+                        {this.state.files}
                       </div>
                     </div>
                   </div>
@@ -47,6 +55,19 @@ export default class CoursePage extends Component {
             </section>
           </div>
         </div>
+      </div>
+    );
+  }
+  Content() {
+    return (
+      <div className="file-input  btn-lg ">
+        <input
+          type="file"
+          id="file"
+          className="file"
+          onClick={(e) => this.onChange(e)}
+        />
+        <label for="file">Select file</label>
       </div>
     );
   }

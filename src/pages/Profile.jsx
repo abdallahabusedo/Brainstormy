@@ -27,17 +27,23 @@ class Profile extends Component {
     });
   };
   componentDidMount = () => {
-    let userId = localStorage.getItem("accessToken");
-    axios.get(`http://localhost:2000/user?id=${userId}`).then((response) => {
-      this.setState({
-        firstName: response.data[0].firstName,
-        lastName: response.data[0].lastName,
-        username: response.data[0].username,
-        email: response.data[0].email,
-        birthDate: response.data[0].birthDate,
-        type: response.data[0].type,
+    let id = localStorage.getItem("accessToken");
+    let a = id == "" ? false : true;
+    if (a) {
+      let userId = localStorage.getItem("accessToken");
+      axios.get(`http://localhost:2000/user?id=${userId}`).then((response) => {
+        this.setState({
+          firstName: response.data[0].firstName,
+          lastName: response.data[0].lastName,
+          username: response.data[0].username,
+          email: response.data[0].email,
+          birthDate: response.data[0].birthDate,
+          type: response.data[0].type,
+        });
       });
-    });
+    } else {
+      window.location = "/signup";
+    }
   };
   EditForm = () => {
     this.setState({ readOnly: false });

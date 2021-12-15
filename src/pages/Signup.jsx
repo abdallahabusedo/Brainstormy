@@ -43,11 +43,19 @@ class Signup extends Component {
         console.log(response);
         const authToken = response.data.id;
         localStorage.setItem("accessToken", authToken);
+        localStorage.setItem("type", this.state.type);
         window.location = "/profile";
       })
       .catch((e) => {
         console.log(e, " err");
       });
+  };
+  componentDidMount = () => {
+    let id = localStorage.getItem("accessToken");
+    let a = id == "" ? false : true;
+    if (a) {
+      window.location = "/profile";
+    }
   };
   render() {
     return (
