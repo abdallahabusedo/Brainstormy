@@ -1,34 +1,46 @@
 import React, { Component } from "react";
 import Header from "../components/Header";
 import courseImg from "./../assets/logo.png";
-import axios from "axios";
 import "./../../src/style/courses.css";
+
+import { getCourseAll } from "./course-service";
+import { CourseMetadata } from "../../models/models";
+import { error, logError } from "../../logger";
+import { getRouteParam } from "../../common/helpers";
 export default class CoursePage extends Component {
   constructor(props) {
     super(props);
-    console.log(window.location.pathname.split("/")[2]);
+    console.log(getRouteParam(2));
     this.state = {
-      courses: [],
-      id: window.location.pathname.split("/")[2],
-      files: [],
+      id: getRouteParam(2),
+      name: '',
+      start_date: new Date(),
+      end_date: new Date(),
+      description: '',
+      instructor_id: '',
+      activities: [],
+      progress: {},
     };
   }
-  componentDidMount = () => {
-    axios
-      .get(`http://localhost:2000/courses/${this.state.id}`)
-      .then((response) => {
-        this.setState({
-          courses: response.data,
-        });
-        console.log(this.state.courses);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-  onChange = (e) => {
-    let file = e.target.files;
-    this.setState({ files: file });
+  componentDidMount = async () => {
+    try {
+      // Get course metadata
+      const res = await getCourseAll(this.state.id);
+      
+      // Validate
+      const { value, error } = CourseMetadata.validate(res.data, { stripUnknown: true, presence: 'required'});
+
+      console.log(validCourseMetadata.value);
+
+      // Set state
+      this.setState(validCourseMetadata.value);
+
+      // TODO :: Remove
+      console.log(this.state);
+    
+    } catch (e) {
+      logError(e);
+    }
   };
   render() {
     return (
