@@ -1,6 +1,8 @@
 import axiosClient from "../../common/client";
 
-export const getCourseMetadata  = (course_id) => axiosClient.get(`/courses/${course_id}`);
+export const getCourseAll       = (course_id) => axiosClient.get(`/courses/${course_id}`);
+
+export const getCourseMetadata  = (course_id) => axiosClient.get(`/courses/${course_id}/metadata`);
 
 export const editCourseMetadata = (course_id) => axiosClient.patch(`/courses/${course_id}`);
 
