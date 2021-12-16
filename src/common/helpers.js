@@ -1,0 +1,1 @@
+export const getRouteParam = (n) => window.location.pathname.split("/")[n];

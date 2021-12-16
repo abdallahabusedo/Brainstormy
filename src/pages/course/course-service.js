@@ -1,4 +1,4 @@
-import axiosClient from "../../client";
+import axiosClient from "../../common/client";
 
 export const getCourseMetadata  = (course_id) => axiosClient.get(`/courses/${course_id}`);
 
