@@ -14,29 +14,45 @@ class Login extends Component {
     let target = e.target;
     let value = target.type === "checkbox" ? target.checked : target.value;
     let name = target.name;
-    this.setState({
-      [name]: value,
-    });
+    this.setState(
+      {
+        [name]: value,
+      },
+      function () {
+        console.log("");
+      }
+    );
   };
 
   handelSubmit = (e) => {
     e.preventDefault();
-    let toSend = {
-      email: this.state.email,
-      password: this.state.password,
+    var data = JSON.stringify({
+      email: "testB@test11.com",
+      password: "1234",
+    });
+    var config = {
+      method: "post",
+      url: "http://localhost:3000/login",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
     };
-    axios
-      .post(`http://localhost:2000/user`, toSend)
-      .then((Response) => {
-        console.log(Response);
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        const authToken = response.data;
+        localStorage.setItem("accessToken", authToken);
+        // localStorage.setItem("type", this.state.type);
+        window.location = "/profile";
       })
-      .catch((e) => {
-        console.log(e, "error");
+      .catch(function (error) {
+        console.log(error);
       });
   };
   componentDidMount = () => {
     let id = localStorage.getItem("accessToken");
-    let a = id == "" ? false : true;
+    let a = id === "" ? false : true;
     if (a) {
       window.location = "/profile";
     }

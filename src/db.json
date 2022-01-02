@@ -102,6 +102,16 @@
       "lastName": "asdad",
       "type": "Student",
       "id": "-as0nrS"
+    },
+    {
+      "username": "asdasd",
+      "birthDate": "2021-12-08",
+      "email": "asdasd@asd",
+      "password": "asd",
+      "firstName": "asdasdasd",
+      "lastName": "asdasd",
+      "type": "Instructor",
+      "id": "_slx7Sd"
     }
   ],
   "courses": [

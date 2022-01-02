@@ -87,6 +87,7 @@ export default class CoursePage extends Component {
         <div>
           <img
             src={courseImg}
+            alt="course"
             className="rounded-circle img-fluid"
             width="200px"
           />

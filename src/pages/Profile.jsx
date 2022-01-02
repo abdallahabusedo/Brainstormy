@@ -6,11 +6,11 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: "",
-      lastName: "",
+      first_name: "",
+      last_name: "",
       username: "",
       email: "",
-      birthDate: "",
+      birthdate: "",
       year: "",
       month: "",
       day: "",
@@ -26,22 +26,38 @@ class Profile extends Component {
       [name]: value,
     });
   };
+
   componentDidMount = () => {
     let id = localStorage.getItem("accessToken");
-    let a = id == "" ? false : true;
+    let a = id === "" ? false : true;
+    let config = {
+      method: "get",
+      url: "http://localhost:3000/my/profile",
+      headers: {
+        Authorization: `Bearer ${id}`,
+      },
+    };
+
     if (a) {
-      let userId = localStorage.getItem("accessToken");
-      axios.get(`http://localhost:2000/user?id=${userId}`).then((response) => {
-        this.setState({
-          firstName: response.data[0].firstName,
-          lastName: response.data[0].lastName,
-          username: response.data[0].username,
-          email: response.data[0].email,
-          birthDate: response.data[0].birthDate,
-          type: response.data[0].type,
+      axios(config)
+        .then((response) => {
+          console.log(JSON.stringify(response.data));        
+            this.setState(
+              {
+                firstName: response.data.first_name,
+                lastName: response.data.last_name,
+                username: response.data.username,
+                email: response.data.email,
+                birthdate: response.data.birthdate.slice(0, 10),
+                type: response.data.type === 3 ? "Student" : "Instructor",
+              },
+              () => {}
+              );
+              console.log(this.state.birthdate)
+        })
+        .catch(function (error) {
+          console.log(error);
         });
-        localStorage.setItem("type", response.data[0].type);
-      });
     } else {
       window.location = "/signup";
     }
@@ -52,24 +68,30 @@ class Profile extends Component {
   SubmitEdit = (e) => {
     e.preventDefault();
     let userId = localStorage.getItem("accessToken");
-    const toUpdate = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
+    const data = JSON.stringify({
+      firstName: this.state.first_name,
+      lastName: this.state.last_name,
       username: this.state.username,
       email: this.state.email,
-      birthDate: this.state.birthDate,
-      type: this.state.type,
+      birthDate: this.state.birthdate,
+    });
+    var config = {
+      method: "patch",
+      url: "http://localhost:3000/my/profile",
+      headers: {
+        Authorization: `Bearer ${userId}`,
+        "Content-Type": "application/json",
+      },
+      data: data,
     };
-
     this.setState({ readOnly: true });
-    /* todo: */
-    axios
-      .put(`http://localhost:2000/user/${userId}`, toUpdate)
-      .then((response) => {
-        console.log(response);
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
       })
-      .catch((e) => {
-        console.log("error edit", e);
+      .catch(function (error) {
+        console.log(error);
       });
   };
   render() {
@@ -84,6 +106,7 @@ class Profile extends Component {
                   <div className="card-body text-center">
                     <div className="mt-0 mb-0">
                       <img
+                        alt="img"
                         src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.png"
                         className="rounded-circle img-fluid"
                       />
@@ -94,7 +117,7 @@ class Profile extends Component {
                     {this.lastName()}
                     {this.userName()}
                     {this.email()}
-                    {this.password()}
+                    {this.birthdate()}
                     {this.Submit()}
                   </div>
                 </div>
@@ -131,15 +154,16 @@ class Profile extends Component {
     );
   }
 
-  password() {
+  birthdate() {
     return (
       <div className="form-outline mb-4">
         <input
           type="date"
           id="form2Example27"
+          name="birthdate"
           className="form-control form-control-lg"
           readOnly={this.state.readOnly}
-          defaultValue={this.state.birthDate}
+          defaultValue={this.state.birthdate}
           onChange={this.handleChange}
         />
       </div>
@@ -152,6 +176,7 @@ class Profile extends Component {
         <input
           type="email"
           id="form2Example17"
+          name="email"
           className="form-control form-control-lg"
           readOnly={this.state.readOnly}
           placeholder="Email address"
@@ -168,6 +193,7 @@ class Profile extends Component {
         <input
           type="text"
           id="form2Example37"
+          name="username"
           className="form-control form-control-lg"
           readOnly={this.state.readOnly}
           placeholder="User Name"
@@ -184,6 +210,7 @@ class Profile extends Component {
         <input
           type="text"
           id="form2Example37"
+          name="last_name"
           className="form-control form-control-lg"
           readOnly={this.state.readOnly}
           placeholder="Last Name"
@@ -199,6 +226,7 @@ class Profile extends Component {
       <div className="form-outline mb-4">
         <input
           type="text"
+          name="first_name"
           id="form2Example37"
           className="form-control form-control-lg"
           placeholder="First Name"

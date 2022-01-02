@@ -26,7 +26,7 @@ class Courses extends Component {
   };
   render() {
     let id = localStorage.getItem("accessToken");
-    let a = id == "" ? false : true;
+    let a = id === "" ? false : true;
     return (
       <div>
         <Header />
@@ -62,7 +62,7 @@ class Courses extends Component {
       return (
         <div className="card-group justify-content-center align-items-center d-inline-block">
           <div className="card card_de m-3 shadow-lg bg-white rounded  ">
-            <img className="card-img-top" src={cardImg} alt="Card image cap" />
+            <img className="card-img-top" src={cardImg} alt="Cardimagecap" />
             <div className="card-body">
               <h4>{course.name}</h4>
               <p className="card-text">{course.description}</p>

@@ -11,7 +11,7 @@ class Signup extends Component {
       username: "",
       email: "",
       password: "",
-      birthDate: "",
+      birthdate: "",
       year: "",
       month: "",
       day: "",
@@ -28,31 +28,35 @@ class Signup extends Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
-    let toSent = {
+    var data = JSON.stringify({
       username: this.state.username,
-      birthDate: this.state.birthDate,
+      first_name: this.state.firstName,
+      last_name: this.state.lastName,
       email: this.state.email,
       password: this.state.password,
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      type: this.state.type,
+      birthdate: this.state.birthdate,
+    });
+    console.log(data);
+    var config = {
+      method: "post",
+      url: "http://localhost:3000/register",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
     };
-    axios
-      .post("http://localhost:2000/user", toSent)
-      .then((response) => {
-        console.log(response);
-        const authToken = response.data.id;
-        localStorage.setItem("accessToken", authToken);
-        localStorage.setItem("type", this.state.type);
-        window.location = "/profile";
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        window.location = "/login";
       })
-      .catch((e) => {
-        console.log(e, " err");
+      .catch(function (error) {
+        console.log(error);
       });
   };
   componentDidMount = () => {
     let id = localStorage.getItem("accessToken");
-    let a = id == "" ? false : true;
+    let a = id === "" ? false : true;
     if (a) {
       window.location = "/profile";
     }
@@ -124,7 +128,7 @@ class Signup extends Component {
           id="form2Example27"
           className="form-control form-control-lg"
           onChange={this.handleChange}
-          name="birthDate"
+          name="birthdate"
           required
         />
       </div>

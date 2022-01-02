@@ -10,7 +10,7 @@ class Header extends Component {
   signOut = (e) => {
     e.preventDefault();
     let id = localStorage.getItem("accessToken");
-    if (id != "") {
+    if (id !== "") {
       localStorage.setItem("accessToken", "");
       localStorage.setItem("type", "");
       this.setState({ loggedIn: false });
@@ -19,7 +19,7 @@ class Header extends Component {
   };
   render() {
     let id = localStorage.getItem("accessToken");
-    let a = id == "" ? false : true;
+    let a = id === "" ? false : true;
     return (
       <div>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -79,7 +79,7 @@ class Header extends Component {
               profile
             </a>
           </li>
-          {type == "Instructor" ? (
+          {type === "Instructor" ? (
             <li className="nav-item">
               <a className="nav-link " href="/createCourse">
                 Create Courses
