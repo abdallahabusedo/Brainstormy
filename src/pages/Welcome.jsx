@@ -1,14 +1,28 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
+import { logError } from "../common/logger";
 import WelcomeBody from "../components/WelcomeBody";
+import { UserData } from "../models/models";
+import { fetchUser, setUser } from "../services/user-service";
 import Header from "./../components/Header";
-class Welcome extends Component {
-  render() {
-    return (
-      <div>
-        <Header />
-        <WelcomeBody />
-      </div>
-    );
-  }
+
+export default function Welcome() {
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetchUser();
+        const value = await UserData.validateAsync(res.data, { stripUnknown: true });
+        setUser(value);
+      } catch (e) {
+        logError(e);
+      }
+
+    })()
+    return () => {}
+  }, [])
+  return (
+    <div>
+      <Header />
+      <WelcomeBody />
+    </div>
+  );
 }
-export default Welcome;
