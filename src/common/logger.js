@@ -1,1 +1,4 @@
-export const logError = (err) => console.error(`Error: ${err}`);
+import { toast } from "react-toastify";
+
+export const logError   = (err) => toast.error(err);
+export const logSuccess = (msg) => toast.success(msg);
