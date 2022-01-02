@@ -154,14 +154,14 @@
     {
       "id": 1,
       "courseId": 1,
-      "type": "video",
+      "type": 1,
       "title": "Video 1",
       "description": "Video Gamed Gedan Awy"
     },
     {
       "id": 2,
       "courseId": 1,
-      "type": "pdf",
+      "type": 0,
       "title": "Pdf 1",
       "description": "PDF Gamed Awy\r\n"
     }
