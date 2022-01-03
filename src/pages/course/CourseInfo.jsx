@@ -17,7 +17,7 @@ export default function CourseInfo () {
 			<div className="col-8 text-start">
 				<div className="d-flex flex-column justify-content-center h-100">
 					<h4 className="mb-2 ">{course.name}</h4>
-					<h6 className="mb-2">{course.instructor.first_name}</h6>
+					<h6 className="mb-2">{course.instructorName}</h6>
 					<p>{course.description}</p>
 				</div>
 			</div>

@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Accordion } from "react-bootstrap";
 import ActivityContent from "./ActivityContent";
 import { CourseDataContext } from "../../../providers/CourseDataProvider";
-import { getUser } from "../../../services/user-service";
-import { FaPlusSquare } from 'react-icons/fa'
+import { FaPlusSquare } from 'react-icons/fa';
 import NoGuestGuard from "../../../guards/NoGuestGuard";
+import AddActivity from "./AddActivity";
 
 export default function Content () {
     const [course, _] = useContext(CourseDataContext);
@@ -24,7 +24,7 @@ export default function Content () {
                   </div>
                 </Accordion.Header>
                 <Accordion.Body>
-                    Add item body
+                    <AddActivity />
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>
