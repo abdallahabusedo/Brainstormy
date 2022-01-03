@@ -5,6 +5,8 @@ class Header extends Component {
     super(props);
     this.state = {
       loggedIn: true,
+      typeofUser: "",
+      delay:false
     };
   }
   signOut = (e) => {
@@ -34,31 +36,36 @@ class Header extends Component {
   }
 
   StaticHeader() {
-    return <div>
-      <a className="navbar-brand" href="/">
-        <img
-          src={Logo}
-          alt="logo"
-          width="50"
-          height="40"
-          className="d-inline-block align-text-top"
-        ></img>
-        BrainStormy
-      </a>
-      <button
-        className="navbar-toggler "
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
-    </div>;
+    return (
+      <div>
+        <a className="navbar-brand" href="/">
+          <img
+            src={Logo}
+            alt="logo"
+            width="50"
+            height="40"
+            className="d-inline-block align-text-top"
+          ></img>
+          BrainStormy
+        </a>
+        <button
+          className="navbar-toggler "
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    );
   }
-
+  componentDidMount =  () => {
+    // this.setState({ typeofUser: type },()=>{});
+    
+  };
   NAVifT() {
     let type = localStorage.getItem("type");
     return (
@@ -79,10 +86,19 @@ class Header extends Component {
               profile
             </a>
           </li>
-          {type === "Instructor" ? (
+          {type === "2" || type === "1" ? (
             <li className="nav-item">
               <a className="nav-link " href="/createCourse">
                 Create Courses
+              </a>
+            </li>
+          ) : (
+            ""
+          )}
+          {type === "1" ? (
+            <li className="nav-item">
+              <a className="nav-link " href="/admin">
+                Panel
               </a>
             </li>
           ) : (
@@ -108,7 +124,7 @@ class Header extends Component {
           </li>
           <li className="nav-item">
             <a className="nav-link " href="/login">
-              Login 
+              Login
             </a>
           </li>
         </ul>

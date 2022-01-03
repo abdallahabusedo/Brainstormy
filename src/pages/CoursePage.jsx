@@ -8,28 +8,54 @@ export default class CoursePage extends Component {
     super(props);
     console.log(window.location.pathname.split("/")[2]);
     this.state = {
-      courses: [],
+      courses: {},
       id: window.location.pathname.split("/")[2],
-      files: [],
     };
   }
+  EnrolOnCourse = () => {
+        let userId = localStorage.getItem("accessToken");
+
+    var config = {
+      method: "post",
+      url: `http://localhost:3000/my/courses/${this.state.id}/enroll`,
+      headers: {
+        Authorization: `Bearer ${userId}`,
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+  }
   componentDidMount = () => {
-    axios
-      .get(`http://localhost:2000/courses/${this.state.id}`)
+    let userId = localStorage.getItem("accessToken");
+
+    var config = {
+      method: "get",
+      url: `http://localhost:3000/courses/${this.state.id}`,
+      headers: {
+        Authorization: `Bearer ${userId}`,
+      },
+    };
+
+    axios(config)
       .then((response) => {
+        console.log(JSON.stringify(response.data));
         this.setState({
           courses: response.data,
         });
         console.log(this.state.courses);
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(function (error) {
+        console.log(error);
       });
   };
-  onChange = (e) => {
-    let file = e.target.files;
-    this.setState({ files: file });
-  };
+
   render() {
     return (
       <div>
@@ -75,7 +101,10 @@ export default class CoursePage extends Component {
   Enrol() {
     return (
       <div>
-        <button className="btn btn-warning btn-lg btn-block mt-3 mb-5">
+        <button
+          className="btn btn-warning btn-lg btn-block mt-3 mb-5"
+          onClick={this.EnrolOnCourse}
+        >
           Enrol
         </button>
       </div>
@@ -93,7 +122,6 @@ export default class CoursePage extends Component {
           />
         </div>
         <h4 className="mb-2">{this.state.courses.name}</h4>
-
         <h4 className="mb-2">{this.state.courses.instructor}</h4>
         <p className=" h5 card-text">{this.state.courses.description}</p>
       </div>

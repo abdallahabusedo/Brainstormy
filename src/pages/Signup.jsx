@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import Logo from "./../assets/logo.png";
 import "./../style/signup.css";
+import swal from "@sweetalert/with-react";
 const axios = require("axios").default;
+
 class Signup extends Component {
   constructor(props) {
     super(props);
@@ -12,9 +14,6 @@ class Signup extends Component {
       email: "",
       password: "",
       birthdate: "",
-      year: "",
-      month: "",
-      day: "",
       type: "",
     };
   }
@@ -52,6 +51,10 @@ class Signup extends Component {
       })
       .catch(function (error) {
         console.log(error);
+        swal({
+          title: "Email or Username are incorrect",
+          icon: "error",
+        });
       });
   };
   componentDidMount = () => {
@@ -86,7 +89,7 @@ class Signup extends Component {
                         {this.UserName()}
                         {this.Email()}
                         {this.Password()}
-                        {this.UserType()}
+                        {/* {this.UserType()} */}
                         {this.Date()}
                         {this.Submit()}
                         <p className="mb-5 pb-lg-2">

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Logo from "./../assets/logo.png";
 import "./../style/signup.css";
 import axios from "axios";
+import swal from "@sweetalert/with-react";
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -18,7 +19,7 @@ class Login extends Component {
       {
         [name]: value,
       },
-      function () {
+      () => {
         console.log("");
       }
     );
@@ -27,9 +28,10 @@ class Login extends Component {
   handelSubmit = (e) => {
     e.preventDefault();
     var data = JSON.stringify({
-      email: "testB@test11.com",
-      password: "1234",
+      email: this.state.email,
+      password: this.state.password,
     });
+    console.log("email", this.state.email, this.state.password);
     var config = {
       method: "post",
       url: "http://localhost:3000/login",
@@ -40,14 +42,15 @@ class Login extends Component {
     };
     axios(config)
       .then(function (response) {
-        console.log(JSON.stringify(response.data));
+        console.log(JSON.stringify(response.data.type));
         const authToken = response.data;
         localStorage.setItem("accessToken", authToken);
-        // localStorage.setItem("type", this.state.type);
+        localStorage.setItem("type", response.data.type);
         window.location = "/profile";
       })
       .catch(function (error) {
         console.log(error);
+        swal({ title: "Email or Password is Wrong", icon: "error" });
       });
   };
   componentDidMount = () => {
@@ -130,6 +133,7 @@ class Login extends Component {
       <div className="form-outline mb-4">
         <input
           type="password"
+          name="password"
           id="form2Example27"
           className="form-control form-control-lg"
           placeholder="Password"
@@ -145,6 +149,7 @@ class Login extends Component {
         <input
           type="email"
           id="form2Example17"
+          name="email"
           className="form-control form-control-lg"
           placeholder="Email address"
           onChange={this.handleChange}

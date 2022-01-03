@@ -8,21 +8,55 @@ class Courses extends Component {
     super(props);
     this.state = {
       courses: [],
+      myCourses: [],
     };
   }
   componentDidMount = async () => {
-    await axios
-      .get("http://localhost:2000/courses")
+    let token = localStorage.getItem("accessToken");
+    var config = {
+      method: "get",
+      url: "http://localhost:3000/other/courses",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    axios(config)
       .then((response) => {
-        console.log(response.data);
-        this.setState({
-          courses: response.data,
-        });
+        console.log(JSON.stringify(response.data));
+        this.setState(
+          {
+            courses: response.data,
+          },
+          () => {}
+        );
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(function (error) {
+        console.log(error);
       });
-    console.log(this.state.courses);
+    console.log("courses", this.state.courses);
+
+    config = {
+      method: "get",
+      url: "http://localhost:3000/my/courses",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    axios(config)
+      .then((response) => {
+        console.log("data",response.data);
+        this.setState(
+          {
+            myCourses: response.data,
+          },
+          () => {}
+        );
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
   render() {
     let id = localStorage.getItem("accessToken");
@@ -36,24 +70,32 @@ class Courses extends Component {
   }
 
   ContentIfL() {
-    return <div>
+    return (
       <div>
-        <h1 className="m-5 p-5">Courses</h1>
-      </div>
+        <div>
+          <h1 className="m-5 p-5">My Courses</h1>
+          {this.MyCourseCard()}
+        </div>
+        <div>
+          <h1 className="m-5 p-5">Courses</h1>
+        </div>
 
-      {this.CourseCard()}
-    </div>;
+        {this.CourseCard()}
+      </div>
+    );
   }
 
   ContentIfNL() {
-    return <div>
-      <h1 className="m-5 p-5"> Join To View Courses </h1>
-      <a href="/signup">
-        <button className="btn btn-warning btn-lg btn-block mt-3 mb-5">
-          Join here
-        </button>
-      </a>
-    </div>;
+    return (
+      <div>
+        <h1 className="m-5 p-5"> Join To View Courses </h1>
+        <a href="/signup">
+          <button className="btn btn-warning btn-lg btn-block mt-3 mb-5">
+            Join here
+          </button>
+        </a>
+      </div>
+    );
   }
 
   CourseCard() {
@@ -62,10 +104,31 @@ class Courses extends Component {
       return (
         <div className="card-group justify-content-center align-items-center d-inline-block">
           <div className="card card_de m-3 shadow-lg bg-white rounded  ">
-            <img className="card-img-top" src={cardImg} alt="Cardimagecap" />
+            <img className="card-img-top" src={cardImg} alt="CardImageCap" />
             <div className="card-body">
               <h4>{course.name}</h4>
-              <p className="card-text">{course.description}</p>
+              <h6 className="card-text">{course.description}</h6>
+              <h6>start: {course.start_date.slice(0, 10)}</h6>
+              <h6>end: {course.end_date.slice(0, 10)}</h6>
+              {this.Submit(course.id)}
+            </div>
+          </div>
+        </div>
+      );
+    });
+  }
+  MyCourseCard() {
+    return this.state.myCourses.map((course) => {
+      console.log(course);
+      return (
+        <div className="card-group justify-content-center align-items-center d-inline-block">
+          <div className="card card_de m-3 shadow-lg bg-white rounded  ">
+            <img className="card-img-top" src={cardImg} alt="CardImageCap" />
+            <div className="card-body">
+              <h4>{course.name}</h4>
+              <h6 className="card-text">{course.description}</h6>
+              <h6>start: {course.start_date.slice(0, 10)}</h6>
+              <h6>end: {course.end_date.slice(0, 10)}</h6>
               {this.Submit(course.id)}
             </div>
           </div>

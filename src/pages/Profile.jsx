@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Header from "../components/Header";
+import swal from "@sweetalert/with-react";
+
 const axios = require("axios").default;
 
 class Profile extends Component {
@@ -41,19 +43,24 @@ class Profile extends Component {
     if (a) {
       axios(config)
         .then((response) => {
-          console.log(JSON.stringify(response.data));        
-            this.setState(
-              {
-                firstName: response.data.first_name,
-                lastName: response.data.last_name,
-                username: response.data.username,
-                email: response.data.email,
-                birthdate: response.data.birthdate.slice(0, 10),
-                type: response.data.type === 3 ? "Student" : "Instructor",
-              },
-              () => {}
-              );
-              console.log(this.state.birthdate)
+          console.log(JSON.stringify(response.data));
+          this.setState(
+            {
+              firstName: response.data.first_name,
+              lastName: response.data.last_name,
+              username: response.data.username,
+              email: response.data.email,
+              birthdate: response.data.birthdate.slice(0, 10),
+              type:
+                response.data.type === 3
+                  ? "Student"
+                  : response.data.type === 2
+                  ? "Instructor"
+                  : "Admin",
+            },
+            () => {}
+          );
+          localStorage.setItem("type", response.data.type);
         })
         .catch(function (error) {
           console.log(error);
@@ -73,7 +80,6 @@ class Profile extends Component {
       lastName: this.state.last_name,
       username: this.state.username,
       email: this.state.email,
-      birthDate: this.state.birthdate,
     });
     var config = {
       method: "patch",
@@ -84,14 +90,18 @@ class Profile extends Component {
       },
       data: data,
     };
-    this.setState({ readOnly: true });
 
     axios(config)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
+        this.setState({ readOnly: true });
       })
       .catch(function (error) {
         console.log(error);
+        swal({
+          title: "Email or Username are taken",
+          icon: "error",
+        });
       });
   };
   render() {
@@ -162,7 +172,7 @@ class Profile extends Component {
           id="form2Example27"
           name="birthdate"
           className="form-control form-control-lg"
-          readOnly={this.state.readOnly}
+          readOnly="true"
           defaultValue={this.state.birthdate}
           onChange={this.handleChange}
         />

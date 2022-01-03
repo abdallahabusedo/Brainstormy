@@ -7,6 +7,8 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Courses from "./pages/Courses";
 import CoursePage from "./pages/CoursePage";
+import AdminPanel from "./pages/AdminPanel";
+import CreateCourse from "./pages/CreateCourse";
 import "./App.css";
 
 function App() {
@@ -20,6 +22,8 @@ function App() {
           <Route exact path="/profile" element={<Profile />}></Route>
           <Route exact path="/Courses" element={<Courses />}></Route>
           <Route exact path="/course/:id" element={<CoursePage />}></Route>
+          <Route exact path="/admin" element={<AdminPanel />}></Route>
+          <Route exact path="/CreateCourse" element={<CreateCourse />}></Route>
         </Routes>
       </div>
     </Router>
