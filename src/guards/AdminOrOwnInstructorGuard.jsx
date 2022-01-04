@@ -9,7 +9,7 @@ export default function AdminOrOwnInstructorGuard({ children }) {
 
     return (
         <>
-            { user.type === ADMIN || (user.type === INSTRUCTOR && course.instructorId === user.id) && <> { children } </> }
+            { (user.type === ADMIN || (user.type === INSTRUCTOR && course.instructorId === user.id)) && <> { children } </> }
         </>
     )
 }
