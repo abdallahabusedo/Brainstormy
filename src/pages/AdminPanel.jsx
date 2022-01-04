@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Header from "../components/Header";
-import axios from "axios";
 import swal from "@sweetalert/with-react";
+import axiosClient from "../common/client";
 
 export default class AdminPanel extends Component {
   constructor(props) {
@@ -12,16 +12,9 @@ export default class AdminPanel extends Component {
   }
   Promote = (id, type) => {
     let token = localStorage.getItem("accessToken");
-    var config = {
-      method: "post",
-      url: `http://localhost:3000/user/promote?userId=${id}`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
     console.log("object", type);
     if (type !== 2) {
-      axios(config)
+      axiosClient.post(`/user/promote?userId=${id}`)
         .then(function (response) {
           console.log(JSON.stringify(response.data));
           window.location.reload();
@@ -41,17 +34,8 @@ export default class AdminPanel extends Component {
   };
   componentDidMount = () => {
     var FormData = require("form-data");
-    var data = new FormData();
-    let token = localStorage.getItem("accessToken");
-    var config = {
-      url: "http://localhost:3000/users?page=1&limit=100",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      data: data,
-    };
 
-    axios(config)
+    axiosClient.get('/users?page=1&limit=100')
       .then(
         (response) => {
           this.setState({ users: response.data.items });

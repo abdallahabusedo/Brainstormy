@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import axios from "axios";
 import Header from "../components/Header";
 import logo from "./../assets/logo.png";
 import swal from "@sweetalert/with-react";
+import axiosClient from "../common/client";
 
 export default class CreateCourse extends Component {
   constructor(props) {
@@ -21,19 +21,8 @@ export default class CreateCourse extends Component {
       start_date: this.state.startDate,
       end_date: this.state.endDate,
     });
-    let userId = localStorage.getItem("accessToken");
 
-    var config = {
-      method: "post",
-      url: "http://localhost:3000/my/courses",
-      headers: {
-        Authorization: `Bearer ${userId}`,
-        "Content-Type": "application/json",
-      },
-      data: data,
-    };
-
-    axios(config)
+    axiosClient.post('/my/courses', data)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
       })

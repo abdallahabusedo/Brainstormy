@@ -3,6 +3,8 @@ import Logo from "./../assets/logo.png";
 import "./../style/signup.css";
 import axios from "axios";
 import swal from "@sweetalert/with-react";
+import axiosClient from "../common/client";
+import { getToken, setToken } from "../services/token-service";
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -32,29 +34,19 @@ class Login extends Component {
       password: this.state.password,
     });
     console.log("email", this.state.email, this.state.password);
-    var config = {
-      method: "post",
-      url: "http://localhost:3000/login",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: data,
-    };
-    axios(config)
-      .then(function (response) {
-        console.log(JSON.stringify(response.data.type));
-        const authToken = response.data;
-        localStorage.setItem("accessToken", authToken);
-        localStorage.setItem("type", response.data.type);
-        window.location = "/profile";
-      })
-      .catch(function (error) {
-        console.log(error);
-        swal({ title: "Email or Password is Wrong", icon: "error" });
-      });
+    axiosClient.post('/login', data).then((response) => {
+      setToken(response.data);
+      localStorage.setItem("type", response.data.type);
+      window.location = "/profile";
+    }).catch((err) => {
+      console.log(err);
+      swal({ title: "Email or Password is Wrong", icon: "error" });
+    });
+
+
   };
   componentDidMount = () => {
-    let id = localStorage.getItem("accessToken");
+    let id = getToken();
     let a = id === "" ? false : true;
     if (a) {
       window.location = "/profile";

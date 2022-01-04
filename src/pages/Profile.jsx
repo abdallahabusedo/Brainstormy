@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Header from "../components/Header";
 import swal from "@sweetalert/with-react";
+import axiosClient from "../common/client";
+import { getToken } from "../services/token-service";
 
 const axios = require("axios").default;
 
@@ -30,18 +32,18 @@ class Profile extends Component {
   };
 
   componentDidMount = () => {
-    let id = localStorage.getItem("accessToken");
+    let id = getToken();
     let a = id === "" ? false : true;
-    let config = {
-      method: "get",
-      url: "http://localhost:3000/my/profile",
-      headers: {
-        Authorization: `Bearer ${id}`,
-      },
-    };
+    // let config = {
+    //   method: "get",
+    //   url: "http://localhost:3000/my/profile",
+    //   headers: {
+    //     Authorization: `Bearer ${id}`,
+    //   },
+    // };
 
     if (a) {
-      axios(config)
+      axiosClient.get('/my/profile')
         .then((response) => {
           console.log(JSON.stringify(response.data));
           this.setState(
@@ -81,17 +83,7 @@ class Profile extends Component {
       username: this.state.username,
       email: this.state.email,
     });
-    var config = {
-      method: "patch",
-      url: "http://localhost:3000/my/profile",
-      headers: {
-        Authorization: `Bearer ${userId}`,
-        "Content-Type": "application/json",
-      },
-      data: data,
-    };
-
-    axios(config)
+    axiosClient.patch('/my/profile', data)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
         this.setState({ readOnly: true });

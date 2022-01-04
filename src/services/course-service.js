@@ -6,7 +6,7 @@ export const getCourseAll           = (course_id) => axiosClient.get(`/courses/$
 
 
 
-export const getCourseProgress      = (course_id) => axiosClient.get(`/courses/${course_id}/progress`);
+export const getCourseProgress      = (course_id) => axiosClient.get(`/my/courses/${course_id}/progress`);
 
 export const enrollToCourse         = (course_id) => axiosClient.post(`/my/courses/${course_id}/enroll`);
 

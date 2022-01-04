@@ -14,7 +14,7 @@ export default function Content () {
           <div className="row">
             <Accordion>
               {
-                course.activities.map((activity) => (<ActivityContent activity={activity} key={activity.id} />))
+                course.activities?.map((activity) => (<ActivityContent activity={activity} key={activity.id} />))
               }
               <Accordion.Item>
                 <Accordion.Header>

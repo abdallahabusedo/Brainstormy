@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Logo from "./../assets/logo.png";
 import "./../style/signup.css";
 import swal from "@sweetalert/with-react";
-const axios = require("axios").default;
+import axiosClient from "../common/client";
 
 class Signup extends Component {
   constructor(props) {
@@ -36,15 +36,7 @@ class Signup extends Component {
       birthdate: this.state.birthdate,
     });
     console.log(data);
-    var config = {
-      method: "post",
-      url: "http://localhost:3000/register",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: data,
-    };
-    axios(config)
+    axiosClient.post('/register', data)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
         window.location = "/login";
@@ -89,7 +81,6 @@ class Signup extends Component {
                         {this.UserName()}
                         {this.Email()}
                         {this.Password()}
-                        {/* {this.UserType()} */}
                         {this.Date()}
                         {this.Submit()}
                         <p className="mb-5 pb-lg-2">

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Header from "../components/Header";
 import "./../style/courses.css";
 import cardImg from "./../assets/logo.png";
-import axios from "axios";
+import axiosClient from "../common/client";
 class Courses extends Component {
   constructor(props) {
     super(props);
@@ -13,15 +13,8 @@ class Courses extends Component {
   }
   componentDidMount = async () => {
     let token = localStorage.getItem("accessToken");
-    var config = {
-      method: "get",
-      url: "http://localhost:3000/other/courses",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
 
-    axios(config)
+    axiosClient.get('/other/courses')
       .then((response) => {
         console.log(JSON.stringify(response.data));
         this.setState(
@@ -36,15 +29,7 @@ class Courses extends Component {
       });
     console.log("courses", this.state.courses);
 
-    config = {
-      method: "get",
-      url: "http://localhost:3000/my/courses",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    axios(config)
+    axiosClient.get('/my/courses')
       .then((response) => {
         console.log("data",response.data);
         this.setState(

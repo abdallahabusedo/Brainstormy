@@ -5,7 +5,7 @@ import LearnerGuard from "../../guards/LearnerGuard";
 import { CourseProgress, LEARNER } from "../../models/models";
 import { CourseDataContext } from "../../providers/CourseDataProvider";
 import { enrollToCourse, getCourseProgress } from "../../services/course-service";
-import { getUser } from "../../services/user-service";
+import { getUser, isMyCourse } from "../../services/user-service";
 
 export default function Progress () {
     const [ course, setCourse ] = useContext(CourseDataContext);
@@ -15,20 +15,22 @@ export default function Progress () {
 
         (async () => {
             try {
-                const { data }  = await getCourseProgress(course.id);
-        
-                const value     = await CourseProgress.validateAsync(data, { stripUnknown: true });
-
-                console.log(value);
-        
-                const newCourse = { ...course };
-                newCourse.progress = {
-                    total_completeness: value.total_completeness,
-                    done: value.activities.reduce((acc, cur) => [...acc, cur.activityId], [])
-                };
-                setCourse(newCourse);
+                if (user.type === LEARNER && isMyCourse(course.id)) {
+                    const { data }  = await getCourseProgress(course.id);
+            
+                    const value     = await CourseProgress.validateAsync(data, { stripUnknown: true });
+    
+                    console.log(value);
+            
+                    const newCourse = { ...course };
+                    newCourse.progress = {
+                        total_completeness: value.total_completeness,
+                        done: value.activities.reduce((acc, cur) => [...acc, cur.activityId], [])
+                    };
+                    setCourse(newCourse);
+                }
             } catch (e) {
-                logError("Error in fetching progress");
+                logError(e.message);
             }
 
         })();
@@ -63,7 +65,7 @@ export default function Progress () {
             }
             <CanEnrollGuard>
                 <button onClick={submitEnroll}>Enroll</button>
-            </CanEnrollGuard>        
+            </CanEnrollGuard>
         </LearnerGuard>
     )
 }

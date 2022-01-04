@@ -12,7 +12,6 @@ export const CourseMetadata = Joi.object({
     description:    Joi.string(),
     instructorId:   Joi.number(),
     instructorName: Joi.string(),
-    users:          Joi.array().items(Joi.number()),
 });
 
 
@@ -30,5 +29,6 @@ export const ActivityData = Joi.object({
 
 export const CourseData = CourseMetadata.options({ presence: 'required' }).keys({
     progress:   CourseProgress.optional(),
-    activities: Joi.array().items(ActivityData),
+    activities: Joi.array().items(ActivityData).optional(),
 });
+
