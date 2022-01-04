@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import logo from "./../assets/logo.png";
 import swal from "@sweetalert/with-react";
 import axiosClient from "../common/client";
+import { logSuccess } from "../common/logger";
 
 export default class CreateCourse extends Component {
   constructor(props) {
@@ -24,7 +25,10 @@ export default class CreateCourse extends Component {
 
     axiosClient.post('/my/courses', data)
       .then(function (response) {
-        console.log(JSON.stringify(response.data));
+        logSuccess("Course created");
+        setTimeout(() => {
+          window.location = "/courses";
+        }, 3000);
       })
       .catch(function (error) {
         console.log(error);

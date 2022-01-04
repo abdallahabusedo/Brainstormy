@@ -37,7 +37,7 @@ class Login extends Component {
     axiosClient.post('/login', data).then((response) => {
       setToken(response.data);
       localStorage.setItem("type", response.data.type);
-      window.location = "/profile";
+      window.location = "/";
     }).catch((err) => {
       console.log(err);
       swal({ title: "Email or Password is Wrong", icon: "error" });
@@ -49,7 +49,7 @@ class Login extends Component {
     let id = getToken();
     let a = id === "" ? false : true;
     if (a) {
-      window.location = "/profile";
+      window.location = "/";
     }
   };
   render() {

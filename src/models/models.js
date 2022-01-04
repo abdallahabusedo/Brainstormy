@@ -17,14 +17,16 @@ export const CourseMetadata = Joi.object({
 
 export const CourseProgress = Joi.object({
     total_completeness: Joi.number().max(100).min(0),
-    activities:         Joi.array().items(Joi.object({ activityId: Joi.number() })),
+    done:               Joi.array().items(Joi.number()),
 });
 
 export const ActivityData = Joi.object({
-    id:         Joi.number(),
-    type:       Joi.number().allow(PDF, VIDEO, QUIZ),
-    title:      Joi.string(),
-    video_url:  Joi.string().optional()
+    id:             Joi.number(),
+    title:          Joi.string(),
+    type:           Joi.number().allow(PDF, VIDEO, QUIZ),
+    description:    Joi.string().allow(null),
+    video_url:      Joi.string().optional().allow(null),
+    file:           Joi.object().optional().allow(null),
 });
 
 export const CourseData = CourseMetadata.options({ presence: 'required' }).keys({

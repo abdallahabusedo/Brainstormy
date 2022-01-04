@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Document, Page } from "react-pdf";
 
-export default function PDFViewer({file}) {
+export default function PDFViewer({ file }) {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1); //setting 1 to show first page
-
+  const fileBase64 = `data:application/pdf;base64,${Buffer.from(file.data).toString('base64')}`;
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
     setPageNumber(1);
@@ -25,7 +25,7 @@ export default function PDFViewer({file}) {
   return (
     <>
       <Document
-        file={file}
+        file={fileBase64}
         onLoadSuccess={onDocumentLoadSuccess}
       >
         <Page pageNumber={pageNumber} />

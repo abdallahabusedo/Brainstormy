@@ -3,6 +3,8 @@ import Header from "../components/Header";
 import "./../style/courses.css";
 import cardImg from "./../assets/logo.png";
 import axiosClient from "../common/client";
+import { INSTRUCTOR } from "../models/models";
+import { getUser } from "../services/user-service";
 class Courses extends Component {
   constructor(props) {
     super(props);
@@ -10,6 +12,7 @@ class Courses extends Component {
       courses: [],
       myCourses: [],
     };
+    this.user = getUser();
   }
   componentDidMount = async () => {
     let token = localStorage.getItem("accessToken");
@@ -57,15 +60,20 @@ class Courses extends Component {
   ContentIfL() {
     return (
       <div>
-        <div>
-          <h1 className="m-5 p-5">My Courses</h1>
-          {this.MyCourseCard()}
-        </div>
-        <div>
-          <h1 className="m-5 p-5">Courses</h1>
-        </div>
-
-        {this.CourseCard()}
+          <div>
+            <h1 className="m-5 p-5">My Courses</h1>
+            {this.MyCourseCard()}
+          </div>
+        {
+          +(this.user.type) !== +INSTRUCTOR && (
+            <>
+              <div>
+                <h1 className="m-5 p-5">Courses</h1>
+              </div>
+              {this.CourseCard()}
+            </>
+          )
+        }
       </div>
     );
   }

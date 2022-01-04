@@ -12,7 +12,6 @@ import VideoViewer from "./VideoViewer";
 export default function ActivityContent({ activity }) {
   const [course, setCourse] = useContext(CourseDataContext);
 
-
   // Submit Done
   const updateProgress = () => {
     (async () => {
@@ -55,6 +54,11 @@ export default function ActivityContent({ activity }) {
       </Accordion.Header>
 
       <Accordion.Body>
+        <div>
+          <p>
+            { activity.description }
+          </p>
+        </div>
         <div>
           {/* Content Viewer */}
           <div>

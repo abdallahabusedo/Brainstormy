@@ -17,30 +17,31 @@ export default function AddActivity() {
 
     const submitActivity = (ev) => {
         ev.preventDefault();
-        const { title, description, file, video_url } = extractFormInput(ev.target);
-        console.log({title, file, video_url});
+        const { title, file, description, video_url } = extractFormInput(ev.target);
         (async () => {
             try {
                 const fD = new FormData();
                 console.log(activityType);
-                fD.append('activity', { title, type: +activityType, video_url });
+                fD.append('activity', JSON.stringify({ title, description, type: +activityType, video_url }));
                 fD.append('file', file);
 
                 const res = await addActivity(course.id, fD);
 
+                const fileBuffer = await file.arrayBuffer();
                 const newActivity = {
                     id: res.data.id,
                     title,
                     description,
                     courseId: course.id,
-                    type: +activityType
+                    type: +activityType,
+                    video_url,
+                    file: { type: "Buffer", data: fileBuffer }
                 };
                 
-                // // Update course with the new activities
+                // Update course with the new activities
                 const newCourse = { ...course };
                 newCourse.activities = [ ...newCourse.activities, newActivity ];
 
-                console.log(newCourse);
                 setCourse(newCourse);
                 logSuccess("Changes Saved");
                 addForm.current.reset();
@@ -105,6 +106,7 @@ export default function AddActivity() {
                                 id="video_url"
                                 name="video_url"
                                 className="form-control"
+                                pattern="^((?:https?:)?//)?((?:www|m).)?((?:youtube.com|youtu.be))(/(?:[\w-]+?v=|embed/|v/)?)([\w-]+)(\S+)?$"
                             />
                         </div>
                 }
