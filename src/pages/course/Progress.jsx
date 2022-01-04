@@ -5,22 +5,20 @@ import LearnerGuard from "../../guards/LearnerGuard";
 import { CourseProgress, LEARNER } from "../../models/models";
 import { CourseDataContext } from "../../providers/CourseDataProvider";
 import { enrollToCourse, getCourseProgress } from "../../services/course-service";
-import { getUser, isMyCourse } from "../../services/user-service";
+import { fetchAndStoreUser, getUser, isMyCourse } from "../../services/user-service";
 
 export default function Progress () {
     const [ course, setCourse ] = useContext(CourseDataContext);
-    const user = getUser();
+    let user = null;
 
     useEffect(() => {
-
         (async () => {
             try {
+                user = getUser();
                 if (user.type === LEARNER && isMyCourse(course.id)) {
                     const { data }  = await getCourseProgress(course.id);
             
                     const value     = await CourseProgress.validateAsync(data, { stripUnknown: true });
-    
-                    console.log(value);
             
                     const newCourse = { ...course };
                     newCourse.progress = {
@@ -43,6 +41,10 @@ export default function Progress () {
         try {
             await enrollToCourse(course.id);
 
+            await fetchAndStoreUser();
+
+            user = getUser();
+
             logSuccess("Enrolled and redirecting");
 
             setTimeout(() => {
@@ -58,13 +60,13 @@ export default function Progress () {
             {
                 course.progress && course.progress !== {} && (
                     <h1>
-                        Complete: {course.progress.total_completeness} %
+                        Complete: { course.progress.total_completeness.toFixed(2) } %
                     </h1>
 
                 )
             }
             <CanEnrollGuard>
-                <button onClick={submitEnroll}>Enroll</button>
+                <button className="btn btn-primary" onClick={submitEnroll}>Enroll</button>
             </CanEnrollGuard>
         </LearnerGuard>
     )

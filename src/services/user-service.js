@@ -8,7 +8,6 @@ const _fetchUser = async () => {
     const user = { ...(profileRes.data) };
     
     const coursesRes = await getMyCourses();
-    console.log(coursesRes.data);
     user.courses = coursesRes.data;
 
     return user;
@@ -20,12 +19,8 @@ export const getUser = () => {
 }
 
 export const fetchAndStoreUser = async () => {
-    const userString = localStorage.getItem(userLocalStorageKey);
-    
-    if (!userString) {
-        const user = await _fetchUser();
-        setUser(user);
-    }
+    const user = await _fetchUser();
+    setUser(user);
 }
 
 export const isMyCourse = (course_id) => {

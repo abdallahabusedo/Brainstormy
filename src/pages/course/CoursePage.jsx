@@ -36,8 +36,6 @@ function Course(props) {
         // Validate and cast
         const validCourseData = await CourseData.validateAsync(res.data, { stripUnknown: true, presence: 'required'});
         
-        console.log(validCourseData);
-
         // Set state
         setCourse(validCourseData);
 
