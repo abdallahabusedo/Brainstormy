@@ -1,5 +1,4 @@
 import axiosClient from "../common/client";
-import { UserData } from "../models/models";
 import { getMyCourses } from "./course-service";
 
 const userLocalStorageKey = 'user';
@@ -9,20 +8,23 @@ const _fetchUser = async () => {
     const user = { ...(profileRes.data) };
     
     const coursesRes = await getMyCourses();
+    console.log(coursesRes.data);
     user.courses = coursesRes.data;
 
     return user;
 }
 
-export const getUser = async () => {
+export const getUser = () => {
+    const userString = localStorage.getItem(userLocalStorageKey);
+    return userString ? JSON.parse(userString) : {};
+}
+
+export const fetchAndStoreUser = async () => {
     const userString = localStorage.getItem(userLocalStorageKey);
     
     if (!userString) {
         const user = await _fetchUser();
         setUser(user);
-        return user;
-    } else {
-        return JSON.parse(userString);
     }
 }
 

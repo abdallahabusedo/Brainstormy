@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import { logError } from "../common/logger";
 import WelcomeBody from "../components/WelcomeBody";
-import { getUser } from "../services/user-service";
+import { fetchAndStoreUser } from "../services/user-service";
 import Header from "./../components/Header";
 
 export default function Welcome() {
   useEffect(() => {
     (async () => {
       try {
-        await getUser();
+        await fetchAndStoreUser();
       } catch (e) {
         logError(e);
       }

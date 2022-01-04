@@ -11,6 +11,8 @@ import CourseDataProvider, { CourseDataContext } from "../../providers/CourseDat
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import ErrorViewer from "../../components/Error";
+import QA from "./QA";
+import { getUser, fetchAndStoreUser } from "../../services/user-service";
 
 toast.configure();
 
@@ -18,6 +20,12 @@ function Course(props) {
   const [ course, setCourse ] = useContext(CourseDataContext);
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    const user = getUser;
+    if (!user || user === {})
+      fetchAndStoreUser();
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -67,6 +75,7 @@ function Course(props) {
                   <CourseInfo/>
                   <Progress />
                   <Content />
+                  <QA />
                 </div>
               </div>
             ) : (
