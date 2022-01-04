@@ -10,7 +10,7 @@ export default function NoGuestGuard({ children }) {
     return (
         <>
             { 
-                course.users && (
+                (
                     (user.type === ADMIN) ||
                     (user.type === INSTRUCTOR && course.instructor.id === user.id) ||
                     (user.type === LEARNER && isMyCourse(course.id))

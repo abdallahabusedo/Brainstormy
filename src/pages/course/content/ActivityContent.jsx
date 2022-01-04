@@ -20,9 +20,9 @@ export default function ActivityContent({ activity }) {
         const res = await submitDone(course.id, activity.id);
         
         const newState = { ...course };
-        newState.progress.done.append(activity.id);
+        newState.progress.done.push(activity.id);
         newState.progress.total_completeness += (1 / course.activities.length) * 100;
-        setCourse(newState);    
+        setCourse(newState);
         
         logSuccess("Marked as done !")
       } catch (e) {
@@ -39,7 +39,7 @@ export default function ActivityContent({ activity }) {
         {/* Check in case done for learners */}
         <LearnerGuard>
           <span className="px-2">
-            {course.progress.done.find(el => el === activity.id) ? <FaRegCheckSquare /> : <FaRegSquare />}
+            {course.progress?.done.find(el => el === activity.id) ? <FaRegCheckSquare /> : <FaRegSquare />}
           </span>
         </LearnerGuard>
 
@@ -68,9 +68,12 @@ export default function ActivityContent({ activity }) {
         {/* Submit done for learners */}
         {
           <LearnerGuard>
-            <div>
-              <button className="btn btn-primary" onClick={updateProgress}>Mark as done</button>
-            </div>
+            {
+              !course.progress?.done.find(el => el === activity.id) &&
+                <div>
+                  <button className="btn btn-primary" onClick={updateProgress}>Mark as done</button>
+                </div>
+            }
           </LearnerGuard>
         }
       </Accordion.Body>

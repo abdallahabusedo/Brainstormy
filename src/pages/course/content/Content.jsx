@@ -5,17 +5,19 @@ import { CourseDataContext } from "../../../providers/CourseDataProvider";
 import { FaPlusSquare } from 'react-icons/fa';
 import NoGuestGuard from "../../../guards/NoGuestGuard";
 import AddActivity from "./AddActivity";
+import AdminOrOwnInsrtuctorGuard from "../../../guards/AdminOrOwnInstructorGuard";
 
 export default function Content () {
     const [course, _] = useContext(CourseDataContext);
+
     return (
-      <>
-        <NoGuestGuard>
-          <div className="row">
-            <Accordion>
-              {
-                course.activities?.map((activity) => (<ActivityContent activity={activity} key={activity.id} />))
-              }
+      <NoGuestGuard>
+        <div className="row">
+          <Accordion>
+            {
+              course.activities?.map((activity) => (<ActivityContent activity={activity} key={activity.id} />))
+            }
+            <AdminOrOwnInsrtuctorGuard>
               <Accordion.Item>
                 <Accordion.Header>
                   <div style={{ marginRight: '20px'}}>
@@ -27,10 +29,10 @@ export default function Content () {
                     <AddActivity />
                 </Accordion.Body>
               </Accordion.Item>
-            </Accordion>
-          </div>
-        </NoGuestGuard>
-      </>
+            </AdminOrOwnInsrtuctorGuard>
+          </Accordion>
+        </div>
+      </NoGuestGuard>
     );
 }
   
