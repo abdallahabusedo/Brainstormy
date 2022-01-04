@@ -3,22 +3,18 @@ import Header from "../components/Header";
 import swal from "@sweetalert/with-react";
 import axiosClient from "../common/client";
 import { getToken } from "../services/token-service";
-
-const axios = require("axios").default;
+import { LEARNER, INSTRUCTOR } from "../models/models"
 
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      first_name: "",
-      last_name: "",
-      username: "",
-      email: "",
-      birthdate: "",
-      year: "",
-      month: "",
-      day: "",
-      type: "",
+      firstName: { value: "", dirty: false },
+      lastName: { value: "", dirty: false },
+      username: { value: "", dirty: false },
+      email: { value: "", dirty: false },
+      birthdate: { value: "", dirty: false },
+      type: null,
       readOnly: true,
     };
   }
@@ -27,7 +23,7 @@ class Profile extends Component {
     let value = target.type === "checkbox" ? target.checked : target.value;
     let name = target.name;
     this.setState({
-      [name]: value,
+      [name]: { value, dirty: true },
     });
   };
 
@@ -48,15 +44,15 @@ class Profile extends Component {
           console.log(JSON.stringify(response.data));
           this.setState(
             {
-              firstName: response.data.first_name,
-              lastName: response.data.last_name,
-              username: response.data.username,
-              email: response.data.email,
-              birthdate: response.data.birthdate.slice(0, 10),
+              firstName: { value: response.data.first_name, dirty: false },
+              lastName: { value: response.data.last_name, dirty: false },
+              username: { value: response.data.username, dirty: false },
+              email: { value: response.data.email, dirty: false },
+              birthdate: { value: response.data.birthdate.slice(0, 10), dirty: false },
               type:
-                response.data.type === 3
-                  ? "Student"
-                  : response.data.type === 2
+                response.data.type === LEARNER
+                  ? "Learner"
+                  : response.data.type === INSTRUCTOR
                   ? "Instructor"
                   : "Admin",
             },
@@ -76,17 +72,15 @@ class Profile extends Component {
   };
   SubmitEdit = (e) => {
     e.preventDefault();
-    let userId = localStorage.getItem("accessToken");
     const data = JSON.stringify({
-      firstName: this.state.first_name,
-      lastName: this.state.last_name,
-      username: this.state.username,
-      email: this.state.email,
+      first_name: this.state.firstName.dirty ? this.state.firstName.value : null,
+      last_name: this.state.lastName.dirty ? this.state.lastName.value : null,
+      username: this.state.username.dirty ? this.state.username.value : null,
+      email: this.state.email.dirty ? this.state.email.value : null,
     });
     axiosClient.patch('/my/profile', data)
-      .then(function (response) {
-        console.log(JSON.stringify(response.data));
-        this.setState({ readOnly: true });
+      .then((response) => {
+        this.setState({ ...this.state, readOnly: true });
       })
       .catch(function (error) {
         console.log(error);
@@ -113,7 +107,7 @@ class Profile extends Component {
                         className="rounded-circle img-fluid"
                       />
                     </div>
-                    <h1 className="mb-2 mt-4"> {this.state.username} </h1>
+                    <h1 className="mb-2 mt-4"> {this.state.username.value} </h1>
                     <h4 className="mb-2"> {this.state.type} </h4>
                     {this.firstName()}
                     {this.lastName()}
@@ -164,8 +158,8 @@ class Profile extends Component {
           id="form2Example27"
           name="birthdate"
           className="form-control form-control-lg"
-          readOnly="true"
-          defaultValue={this.state.birthdate}
+          readOnly={true}
+          defaultValue={this.state.birthdate.value}
           onChange={this.handleChange}
         />
       </div>
@@ -182,7 +176,7 @@ class Profile extends Component {
           className="form-control form-control-lg"
           readOnly={this.state.readOnly}
           placeholder="Email address"
-          defaultValue={this.state.email}
+          defaultValue={this.state.email.value}
           onChange={this.handleChange}
         />
       </div>
@@ -199,7 +193,7 @@ class Profile extends Component {
           className="form-control form-control-lg"
           readOnly={this.state.readOnly}
           placeholder="User Name"
-          defaultValue={this.state.username}
+          defaultValue={this.state.username.value}
           onChange={this.handleChange}
         />
       </div>
@@ -212,11 +206,11 @@ class Profile extends Component {
         <input
           type="text"
           id="form2Example37"
-          name="last_name"
+          name="lastName"
           className="form-control form-control-lg"
           readOnly={this.state.readOnly}
           placeholder="Last Name"
-          defaultValue={this.state.lastName}
+          defaultValue={this.state.lastName.value}
           onChange={this.handleChange}
         />
       </div>
@@ -228,12 +222,12 @@ class Profile extends Component {
       <div className="form-outline mb-4">
         <input
           type="text"
-          name="first_name"
+          name="firstName"
           id="form2Example37"
           className="form-control form-control-lg"
           placeholder="First Name"
           readOnly={this.state.readOnly}
-          defaultValue={this.state.firstName}
+          defaultValue={this.state.firstName.value}
           onChange={this.handleChange}
         />
       </div>
