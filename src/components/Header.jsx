@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { getUser } from "../services/user-service";
 import Logo from "./../assets/logo.png";
 class Header extends Component {
   constructor(props) {
@@ -8,6 +9,7 @@ class Header extends Component {
       typeofUser: "",
       delay:false
     };
+    this.user = getUser();
   }
   signOut = (e) => {
     e.preventDefault();
@@ -135,7 +137,7 @@ class Header extends Component {
   ifLogged() {
     return (
       <button className="btn btn-warning my-2 my-sm-0" onClick={this.signOut}>
-        <h5>SignOut</h5>
+        <h5>({this.user.type}) SignOut</h5>
       </button>
     );
   }

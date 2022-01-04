@@ -6,7 +6,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Courses from "./pages/Courses";
-import CoursePage from "./pages/CoursePage";
+import CoursePage from "./pages/course/CoursePage";
 import AdminPanel from "./pages/AdminPanel";
 import CreateCourse from "./pages/CreateCourse";
 import "./App.css";
